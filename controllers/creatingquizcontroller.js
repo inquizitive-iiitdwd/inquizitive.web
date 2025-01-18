@@ -135,7 +135,7 @@ export const deleteQuestion = async (req, res) => {
 };
 export const addMarks = async (req,res)=>{
   
-  const {marks,roomKey} = req.body.data;
+  const {marks,roomKey,quizName} = req.body.data;
   console.log(marks,roomKey);
   try{
   if(roomKey){
