@@ -110,7 +110,7 @@ export const getQuestion = async (req, res) => {
     console.log("qizName getquestion",quizName)
     const result = await db.query('SELECT * FROM quiz_question WHERE quizname = $1', [quizName]);
     console.log(result)
-    res.status(200).json(result.rows);
+     res.status(200).json({questions:result.rows,quizName:quizName});
   } catch (err) {
     console.error('Error getting questions:', err);
     res.status(500).json({ error: 'Failed to get questions' });
@@ -141,7 +141,7 @@ export const addMarks = async (req,res)=>{
   if(roomKey){
     console.log(roomKey)
       await db.query(
-        'UPDATE  eventregistration SET marks=$1 WHERE teamkey=$2' ,[marks,roomKey]
+        'UPDATE  eventregistration SET marks=$1,quizName=$2 WHERE teamkey=$3' ,[marks,quizName,roomKey]
      )
       console.log(roomKey)
       res.status(200).json({ok:true,marks:"Marks are successfully updated"});
