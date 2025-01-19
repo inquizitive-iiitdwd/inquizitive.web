@@ -140,10 +140,17 @@ export const addMarks = async (req,res)=>{
   try{
   if(roomKey){
     console.log(roomKey)
-      await db.query(
-        'UPDATE  eventregistration SET marks=$1,quizName=$2 WHERE teamkey=$3' ,[marks,quizName,roomKey]
-     )
-      console.log(roomKey)
+      
+     const response = await db.query('SELECT leadmailid from eventregistration where teamkey=$1',[roomKey])
+
+     console.log(response.rows[0].leadmailid)
+
+     const leadmailid = response.rows[0].leadmailid
+
+    if(leadmailid){
+      await db.query('INSERT INTO quizmarks(leadmailid,marks,quizName) VALUES($1,$2,$3)',[leadmailid,marks,quizName])
+    }
+      // console.log(roomKey)
       res.status(200).json({ok:true,marks:"Marks are successfully updated"});
   }
   else{
@@ -153,4 +160,32 @@ export const addMarks = async (req,res)=>{
   catch(error){
     res.status(500).json({erro:error})
   }
-} 
+}
+
+
+export const getMarks =async (req,res)=>{
+  try{
+    const quizName =req.query.quizName;
+    console.log(quizName);
+
+    if(!quizName){
+      res.status(404).json({ok:false,marks:"Marks are not being Uploaded"});
+    }
+
+    const response = await db.query('SELECT * from quizmarks where quizName=$1',[quizName]);
+    console.log(response.rows);
+
+    if(response.rows.length==0){
+      res.status(404).json({ok:false,marks:"no marks are uploaded"});
+    }
+
+    const res2 = await db.query('SELECT quizmarks.leadmailid,quizmarks.marks,eventregistration.teamname from quizmarks inner join eventregistration on quizmarks.leadmailid=eventregistration.leadmailid where quizName=$1',[quizName]);
+    
+    console.log(res2.rows);
+    res.status(200).json({ok:true,marks:res2.rows,quizName:quizName});
+  }
+
+  catch(error){
+    res.status(500).json({erro:error})
+  }
+}

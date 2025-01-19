@@ -80,7 +80,8 @@ export const eventRegistration=async (req,res)=>{
     }
 
     // Generate a random 4-digit OTP (or any other logic you prefer)
-    const otp = Math.floor(1000 + Math.random() * 9000);
+    let otp = Math.floor(1000 + Math.random() * 9000);
+
     await sendVerificationEmail(teamleademailid, otp);
     // Update the team key in the quiz_setup table
     const updateResult = await db.query(
