@@ -68,41 +68,13 @@ export const addquestion_to_quiz = async (req, res) => {
     answer,
     description,
     imgSrc,
+    quizname
   } = req.body.data;
   console.log(req.body.data);
   try {
     // Check if the question already exists in the quiz
-    const result = await db.query(
-      "SELECT question_id FROM quiz_question WHERE question_id = $1",
-      [questionId]
-    );
-
-    if (result.rows.length === 0) {
-      // If the question doesn't exist, insert it
-      await db.query("INSERT INTO quiz_question (question_id) VALUES ($1)", [
-        questionId,
-      ]);
-    }
-
-    // Update or insert the question details
-    await db.query(
-      `UPDATE quiz_question 
-       SET question = $1, options1 = $2, options2 = $3, options3 = $4, options4 = $5, answer = $6, description = $7, image = $8, quizname = $9 
-       WHERE question_id = $10`,
-      [
-        question,
-        options[0],
-        options[1],
-        options[2],
-        options[3],
-        answer,
-        description,
-        imgSrc,
-        quizName123,
-        questionId,
-      ]
-    );
-
+ 
+     await db.query("INSERT INTO quiz_question (question_id,question,options1,options2,options3,options4,answer,description,image,quizname) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)",[questionId,question,options[0],options[1],options[2],options[3],answer,description,imgSrc,quizname])
     res.status(200).send("Data updated successfully");
   } catch (err) {
     console.error("Error updating question:", err);
