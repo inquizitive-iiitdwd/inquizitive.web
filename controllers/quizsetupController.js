@@ -76,7 +76,7 @@ export const addquestion_to_quiz = async (req, res) => {
   try {
     // Check if the question already exists in the quiz
     
-   await db.query("INSERT INTO quiz_question (question_id,question,options1,options2,options3,options4,answer,description,image,quizname,marks,negativeMarks) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)",[questionId,question,options[0],options[1],options[2],options[3],answer,description,imgSrc,quizname,marks,negativeMarks]);
+   await db.query("INSERT INTO quiz_question (question_id,question,options1,options2,options3,options4,answer,description,image,quizname,marks,negativeMarks) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)",[questionId,question,options[0],options[1],options[2],options[3],answer,description,imgSrc,quizname,marks,negativeMarks]);
     res.status(200).send("Data updated successfully");
   } catch (err) {
     console.error("Error updating question:", err);
