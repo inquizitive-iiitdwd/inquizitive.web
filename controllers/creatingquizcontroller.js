@@ -179,7 +179,14 @@ export const getMarks =async (req,res)=>{
       res.status(404).json({ok:false,marks:"no marks are uploaded"});
     }
 
-    const res2 = await db.query('SELECT quizmarks.leadmailid,quizmarks.marks,eventregistration.teamname from quizmarks inner join eventregistration on quizmarks.leadmailid=eventregistration.leadmailid where quizName=$1',[quizName]);
+   const res2 = await db.query(
+      'SELECT quizmarks.leadmailid, quizmarks.marks, eventregistration.teamname ' +
+      'FROM quizmarks ' +
+      'INNER JOIN eventregistration ON quizmarks.leadmailid = eventregistration.leadmailid ' +
+      'WHERE quizName = $1 ' +
+      'ORDER BY quizmarks.marks DESC', // Sort by marks in descending order
+      [quizName]
+    );
     
     console.log(res2.rows);
     res.status(200).json({ok:true,marks:res2.rows,quizName:quizName});
