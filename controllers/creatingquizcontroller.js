@@ -133,9 +133,10 @@ export const deleteQuestion = async (req, res) => {
     res.status(500).json({ error: 'Failed to delete question' });
   }
 };
+
 export const addMarks = async (req,res)=>{
   
-  const {marks,roomKey,quizName} = req.body.data;
+  const {marks,roomKey,quizName,timestamp} = req.body.data;
   console.log(marks,roomKey);
   try{
   if(roomKey){
@@ -148,10 +149,17 @@ export const addMarks = async (req,res)=>{
      const leadmailid = response.rows[0].leadmailid
 
     if(leadmailid){
-      await db.query('INSERT INTO quizmarks(leadmailid,marks,quizName) VALUES($1,$2,$3)',[leadmailid,marks,quizName])
+      const res = await db.query('SELECT leadmailid,quizName from quizmarks where leadmailid=$1 and quizName=$2',[leadmailid,quizName])
+      console.log(res.rows.length,"igjtfi")
+      
+      if(res.rows.length==0)
+     { await db.query('INSERT INTO quizmarks(leadmailid,marks,quizName,timestamp) VALUES($1,$2,$3,$4)',[leadmailid,marks,quizName,timestamp])
+      res.status(200).json({ok:true,marks:"Marks are successfully updated"});
+        }   else
+      res.status(500).json({ok:false,marks:"You already gave the quiz!!"});
     }
       // console.log(roomKey)
-      res.status(200).json({ok:true,marks:"Marks are successfully updated"});
+      // res.status(200).json({ok:true,marks:"Marks are successfully updated"});
   }
   else{
     res.status(404).json({ok:false,marks:"Marks are not being Uploaded"});
@@ -179,20 +187,24 @@ export const getMarks =async (req,res)=>{
       res.status(404).json({ok:false,marks:"no marks are uploaded"});
     }
 
-   const res2 = await db.query(
-      'SELECT quizmarks.leadmailid, quizmarks.marks, eventregistration.teamname ' +
+    const res2 = await db.query(
+      'SELECT quizmarks.leadmailid, quizmarks.marks,quizmarks.timestamp, eventregistration.teamname ' +
       'FROM quizmarks ' +
       'INNER JOIN eventregistration ON quizmarks.leadmailid = eventregistration.leadmailid ' +
       'WHERE quizName = $1 ' +
-      'ORDER BY quizmarks.marks DESC', // Sort by marks in descending order
+      'ORDER BY quizmarks.marks DESC,quizmarks.timestamp DESC', // Sort by marks in descending order
       [quizName]
     );
-    
-    console.log(res2.rows);
-    res.status(200).json({ok:true,marks:res2.rows,quizName:quizName});
-  }
 
-  catch(error){
-    res.status(500).json({erro:error})
+    if(res2.rows.length >0){
+    console.log("Joined Response:", res2.rows);
+    return res.status(200).json({ ok: true, marks: res2.rows, quizName: quizName });
+    }
+    else{
+      return res.status(404).json({ok:false,quizName:quizName});
+    }
+  } catch (error) {
+    console.error("Error in getMarks:", error);
+    return res.status(500).json({ ok: false, error: error.message });
   }
-}
+};
