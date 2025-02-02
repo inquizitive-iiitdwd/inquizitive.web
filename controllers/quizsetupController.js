@@ -70,13 +70,14 @@ export const addquestion_to_quiz = async (req, res) => {
     imgSrc,
     quizname,
     marks,
-    negativeMarks
+    negativeMarks,
+    questionType
   } = req.body.data;
   console.log(req.body.data);
   try {
     // Check if the question already exists in the quiz
     
-   await db.query("INSERT INTO quiz_question (question_id,question,options1,options2,options3,options4,answer,description,image,quizname,marks,negativeMarks) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)",[questionId,question,options[0],options[1],options[2],options[3],answer,description,imgSrc,quizname,marks,negativeMarks]);
+   await db.query("INSERT INTO quiz_question (question_id,question,options1,options2,options3,options4,answer,description,image,quizname,marks,negativeMarks,questiontype) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)",[questionId,question,options[0],options[1],options[2],options[3],answer,description,imgSrc,quizname,marks,negativeMarks,questionType]);
     res.status(200).send("Data updated successfully");
   } catch (err) {
     console.error("Error updating question:", err);
@@ -101,9 +102,9 @@ export const GoToQuizSetUp=async(req,res)=>{
   
   export const addSaveTimer=async(req,res)=>{
     console.log("addSaveTimer",req.body)
-    const {quizTime,quizDate}=req.body;
+    const {quizTime,quizDate,quizDuration}=req.body;
 
-    await db.query("UPDATE quiz_setup SET time=$1, date=$2 WHERE name=$3",[quizTime,quizDate,quizName])
+    await db.query("UPDATE quiz_setup SET time=$1, date=$2,duration=$3 WHERE name=$4",[quizTime,quizDate,quizDuration,quizName])
     res.status(200).send({quizTime,quizDate,quizName})
     }
     
