@@ -137,7 +137,7 @@ export const deleteQuestion = async (req, res) => {
 export const addMarks = async (req,res)=>{
   
   const {marks,roomKey,quizName,timestamp} = req.body.data;
-  console.log(marks,roomKey);
+  console.log(marks,roomKey,quizName);
   try{
   if(roomKey){
     console.log(roomKey)
@@ -154,6 +154,7 @@ export const addMarks = async (req,res)=>{
       
       if(res.rows.length==0)
      { await db.query('INSERT INTO quizmarks(leadmailid,marks,quizName,timestamp) VALUES($1,$2,$3,$4)',[leadmailid,marks,quizName,timestamp])
+      console.log("Marks are successfully updated")
       res.status(200).json({ok:true,marks:"Marks are successfully updated"});
         }   else
       res.status(500).json({ok:false,marks:"You already gave the quiz!!"});
