@@ -156,11 +156,12 @@ export const addMarks = async (req,res)=>{
      { await db.query('INSERT INTO quizmarks(leadmailid,marks,quizName,timestamp) VALUES($1,$2,$3,$4)',[leadmailid,marks,quizName,timestamp])
       console.log("Marks are successfully updated")
       res.status(200).json({ok:true,marks:"Marks are successfully updated"});
-        }   else
+        }   
+      else{
       res.status(500).json({ok:false,marks:"You already gave the quiz!!"});
     }
-      // console.log(roomKey)
-      // res.status(200).json({ok:true,marks:"Marks are successfully updated"});
+    }
+      
   }
   else{
     res.status(404).json({ok:false,marks:"Marks are not being Uploaded"});
