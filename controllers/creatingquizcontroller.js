@@ -149,10 +149,10 @@ export const addMarks = async (req,res)=>{
      const leadmailid = response.rows[0].leadmailid
 
     if(leadmailid){
-      const res = await db.query('SELECT leadmailid,quizName from quizmarks where leadmailid=$1 and quizName=$2',[leadmailid,quizName])
-      console.log(res.rows.length,"igjtfi")
+      const res2 = await db.query('SELECT leadmailid,quizName from quizmarks where leadmailid=$1 and quizName=$2',[leadmailid,quizName])
+      console.log(res2.rows.length,"igjtfi")
       
-      if(res.rows.length==0)
+      if(res2.rows.length==0)
      { await db.query('INSERT INTO quizmarks(leadmailid,marks,quizName,timestamp) VALUES($1,$2,$3,$4)',[leadmailid,marks,quizName,timestamp])
       console.log("Marks are successfully updated")
       res.status(200).json({ok:true,marks:"Marks are successfully updated"});
