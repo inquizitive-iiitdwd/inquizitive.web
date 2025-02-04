@@ -35,7 +35,7 @@ export const sendresetpassword = async (email,link) => {
         from: process.env.EMAIL_USER,
         to:email,// list of receivers
         subject: "verification otp ✔", // Subject line
-        text: `click link to cverify ${link}`, // link will open the frontend part and at there one button will be there to post req with id ,token and password
+        text: `click link to cverify ${link}. You can get a new code after 5 minutes.`, // link will open the frontend part and at there one button will be there to post req with id ,token and password
       });
   }
   main();
