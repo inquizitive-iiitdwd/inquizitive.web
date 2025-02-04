@@ -195,7 +195,7 @@ export const getMarks =async (req,res)=>{
       'FROM quizmarks ' +
       'INNER JOIN eventregistration ON quizmarks.leadmailid = eventregistration.leadmailid ' +
       'WHERE quizName = $1 ' +
-      'ORDER BY quizmarks.marks DESC,quizmarks.timestamp DESC', // Sort by marks in descending order
+      'ORDER BY quizmarks.marks DESC,quizmarks.timestamp ASC', // Sort by marks in descending order
       [quizName]
     );
 
