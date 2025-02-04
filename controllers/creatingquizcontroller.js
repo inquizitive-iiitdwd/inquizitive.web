@@ -134,43 +134,44 @@ export const deleteQuestion = async (req, res) => {
   }
 };
 
-export const addMarks = async (req,res)=>{
-  
-  const {marks,roomKey,quizName,timestamp} = req.body.data;
-  console.log(marks,roomKey,quizName);
-  try{
-  if(roomKey){
-    console.log(roomKey)
-      
-     const response = await db.query('SELECT leadmailid from eventregistration where teamkey=$1',[roomKey])
+export const addMarks = async (req, res) => {
+  const { marks, roomKey, quizName, timestamp } = req.body.data;
+  console.log(marks, roomKey, quizName);
 
-     console.log(response.rows[0].leadmailid)
-
-     const leadmailid = response.rows[0].leadmailid
-
-    if(leadmailid){
-      const res2 = await db.query('SELECT leadmailid,quizName from quizmarks where leadmailid=$1 and quizName=$2',[leadmailid,quizName])
-      console.log(res2.rows.length,"igjtfi")
-      
-      if(res2.rows.length==0)
-     { await db.query('INSERT INTO quizmarks(leadmailid,marks,quizName,timestamp) VALUES($1,$2,$3,$4)',[leadmailid,marks,quizName,timestamp])
-      console.log("Marks are successfully updated")
-      res.status(200).json({ok:true,marks:"Marks are successfully updated"});
-        }   
-      else{
-      res.status(500).json({ok:false,marks:"You already gave the quiz!!"});
+  try {
+    if (!roomKey) {
+      return res.status(404).json({ ok: false, message: "Room key is missing." });
     }
+
+    // Fetch leadmailid from eventregistration table
+    const response = await db.query('SELECT leadmailid FROM eventregistration WHERE teamkey=$1', [roomKey]);
+
+    if (response.rowCount === 0) {
+      return res.status(404).json({ ok: false, message: "Invalid room key." });
     }
-      
+
+    const leadmailid = response.rows[0].leadmailid;
+    console.log("Lead Mail ID:", leadmailid);
+
+    // Check if the user has already submitted the quiz
+    const res2 = await db.query('SELECT leadmailid, quizName FROM quizmarks WHERE leadmailid=$1 AND quizName=$2', [leadmailid, quizName]);
+
+    if (res2.rowCount > 0) {
+      return res.status(400).json({ ok: false, message: "You already submitted the quiz!" });
+    }
+
+    // Insert marks if user hasn't submitted before
+    await db.query('INSERT INTO quizmarks(leadmailid, marks, quizName, timestamp) VALUES($1, $2, $3, $4)', 
+      [leadmailid, marks, quizName, timestamp]);
+
+    console.log("Marks successfully updated");
+    return res.status(200).json({ ok: true, message: "Marks successfully updated" });
+
+  } catch (error) {
+    console.error("Error:", error);
+    return res.status(500).json({ ok: false, error: error.message });
   }
-  else{
-    res.status(404).json({ok:false,marks:"Marks are not being Uploaded"});
-  }
-}
-  catch(error){
-    res.status(500).json({erro:error})
-  }
-}
+};
 
 
 export const getMarks =async (req,res)=>{
