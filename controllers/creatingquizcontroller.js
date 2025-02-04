@@ -108,7 +108,7 @@ export const getQuestion = async (req, res) => {
     const quizName =response.rows[0].quizname
     //const quizName = fs.readFileSync(quizNameFilePath, "utf8");
     console.log("qizName getquestion",quizName)
-    const result = await db.query('SELECT * FROM quiz_question WHERE quizname = $1', [quizName]);
+    const result = await db.query('SELECT * FROM quiz_question WHERE quizname = $1 ORDER BY question_id ASC', [quizName]);
     console.log(result)
      res.status(200).json({questions:result.rows,quizName:quizName});
   } catch (err) {
