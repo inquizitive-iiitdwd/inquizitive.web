@@ -66,8 +66,8 @@ export const eventRegistration=async (req,res)=>{
  };
  export const accessingquizroom = async (req, res) => {
   try {
-    const { teamleademailid } = req.body.data;
-    console.log(teamleademailid)
+    const { teamName,teamleademailid,attempts } = req.body.data;
+    console.log(teamleademailid,"Accessing Quiz Room")
     // Check if the team lead email is registered for the event
     const result = await db.query(
       'SELECT * FROM eventregistration WHERE  leadmailid=$1',
@@ -78,6 +78,25 @@ export const eventRegistration=async (req,res)=>{
       console.log("You are not registered for the quiz");
       return res.status(400).json({ error: 'You are not registered' });
     }
+
+    const dbTimestamp = result.rows[0].timestamp;
+      if (dbTimestamp) {
+      const currentTimei = new Date();
+      const istTimei = new Date(currentTimei.toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
+     
+      console.log(currentTimei)
+      const timeDifference = (istTimei - dbTimestamp) / 1000 / 60; // Difference in minutes
+
+      console.log(timeDifference)
+
+      if (timeDifference <= 5) {
+        console.log("You already have the code");
+        return res.status(200).json({ ok:false,message: `It takes ${timeDifference} min to expire for the code` });
+      }
+    }
+      const currentTime = new Date();
+    const istTime = new Date(currentTime.toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
+
 
     // Generate a random 4-digit OTP (or any other logic you prefer)
     let otp = Math.floor(1000 + Math.random() * 9000);
