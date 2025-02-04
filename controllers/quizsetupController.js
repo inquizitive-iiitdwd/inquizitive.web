@@ -102,9 +102,9 @@ export const GoToQuizSetUp=async(req,res)=>{
   
   export const addSaveTimer=async(req,res)=>{
     console.log("addSaveTimer",req.body)
-    const {quizTime,quizDate,quizDuration}=req.body;
+    const {saveTimerquizname,quizTime,quizDate,quizDuration}=req.body;
 
-    await db.query("UPDATE quiz_setup SET time=$1, date=$2,duration=$3 WHERE name=$4",[quizTime,quizDate,quizDuration,quizName])
+    await db.query("UPDATE quiz_setup SET time=$1, date=$2,duration=$3 WHERE name=$4",[quizTime,quizDate,quizDuration,saveTimerquizname])
     res.status(200).send({quizTime,quizDate,quizName})
     }
     
