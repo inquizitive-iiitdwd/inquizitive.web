@@ -104,8 +104,8 @@ export const eventRegistration=async (req,res)=>{
     await sendVerificationEmail(teamleademailid, otp);
     // Update the team key in the quiz_setup table
     const updateResult = await db.query(
-      'UPDATE eventregistration SET teamkey=$1 WHERE leadmailid=$2',
-      [otp, teamleademailid]
+      'UPDATE eventregistration SET teamkey=$1, timestamp=$2 WHERE leadmailid=$3',
+      [otp,istTime, teamleademailid]
     );
     console.log(updateResult.rowCount)
     if (updateResult.rowCount === 0) {
