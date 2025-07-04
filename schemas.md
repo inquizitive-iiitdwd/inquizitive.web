@@ -1,7 +1,3 @@
-Here is the cleaned version of your PostgreSQL schema. All unnecessary emojis and redundant formatting have been removed for a more professional and consistent presentation.
-
----
-
 ## Table: `quiz_question`
 
 ```sql

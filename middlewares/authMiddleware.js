@@ -1,36 +1,19 @@
-import jwt, { decode } from 'jsonwebtoken';
-
-// export const authenticate = (req, res, next) => {
-//   const token = req.headers['authorization'];
-//   var a=token.slice(7);//when we request throw browser then directyly use token not a
-//   if (!a) {
-//     return res.status(401).json({ error: 'Access denied. No token provided.' });
-//   }
-
-//   try {
-//     const decoded = jwt.verify(a, process.env.SECRET_KEY);
-//     req.user = decoded;
-//     console.log("req.user",req.user)
-//     next();
-//   } catch (error) {
-//     res.status(400).json({ error: 'Invalid token.' });
-//   }
-// };
-
+import jwt from "jsonwebtoken";
 
 export const authenticate_user = (req, res, next) => {
-  const token = req.headers['authorization'];
-  //var a=token.slice(7);//when we request throgh browser then directyly use token not a
-  //console.log('a');
+  // Read the token from the httpOnly cookie set during login
+  const token = req.cookies.token;
+
   if (!token) {
-    return res.status(401).json({ error: 'Access denied. No token provided.' });
+    return res.status(401).json({ error: "Access denied. No token provided." });
   }
 
   try {
-    const decoded = jwt.verify(a, process.env.JWT_SECRET);
-    req.user = decoded;
+    // Verify the token from the cookie
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded; // Contains { id: user.id, email: user.email }
     next();
   } catch (error) {
-    res.status(400).json({ error: 'Invalid token.' });
+    res.status(400).json({ error: "Invalid token." });
   }
 };
