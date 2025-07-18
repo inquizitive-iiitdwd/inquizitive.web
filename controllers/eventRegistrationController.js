@@ -1,4 +1,4 @@
-import db from "../config.js";
+import { db, mongoDb } from "../config.js";
 import {
   sendVerificationEmail,
   // sendresetpassword is not used in this file

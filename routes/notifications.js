@@ -1,9 +1,9 @@
 import express from 'express';
-import { sendEmail } from '../controllers/notificationController.js';
+import { sendNotification } from '../controllers/notificationController.js';
 // import { authenticate } from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
 
-router.post('/email', sendEmail);
+router.post('/email', sendNotification);
 
 export default router;
