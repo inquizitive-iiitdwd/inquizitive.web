@@ -1,0 +1,93 @@
+Folder PATH listing for volume OS
+Volume serial number is 08AB-0714
+C:.
+¦   .env
+¦   .gitignore
+¦   App.js
+¦   config.js
+¦   New Text Document.txt
+¦   package-lock.json
+¦   package.json
+¦   schemas.md
+¦   structure.txt
+¦   
++---controllers
+¦       adminecontroller.js
+¦       creatingquizcontroller.js
+¦       eventController.js
+¦       eventRegistrationController.js
+¦       notificationController.js
+¦       quizController.js
+¦       userController.js
+¦       
++---middlewares
+¦       authMiddleware.js
+¦       upload.js
+¦       
++---models
+¦       bookingModel.js
+¦       eventModel.js
+¦       organizerModel.js
+¦       paymentModel.js
+¦       ticketModel.js
+¦       
++---routes
+¦       admine.js
+¦       creatingquiz.js
+¦       events.js
+¦       notifications.js
+¦       quizRoutes.js
+¦       user.js
+¦       
++---services
+¦       emailService.js
+¦       eventService.js
+¦       
++---uploads
+    ¦   0628a0b0bcabd02244ab6364ba2bbdf7
+    ¦   07e7af2f6625fa8f773e8e03de3dcd3d
+    ¦   1193a44dbfff8995eb707c68e9af9330
+    ¦   24754cffdeeea250fc008942404cb183
+    ¦   299a7cd646c4934b9b2882c1c13a5418
+    ¦   31cdb98385747a198c019bab29365213
+    ¦   3c2440c8218df98b9837d444ea33f816
+    ¦   4551b394bde56349d1ad34cc26d6db32
+    ¦   4a2131b4f7074e2bf5598ef1dad5d0f1
+    ¦   4cd7198dd3ff2ea9b07f04717caaf59d
+    ¦   615bd2fcf2e1855997bd5700450239e6
+    ¦   684a937da0efdcfe7f80034ed088752e
+    ¦   7a4f69db13b94ed2240b12ac8a8f47d7
+    ¦   7f8c26b611a00798bfdc8af0ba94abb4
+    ¦   97e056052a8e61e071a805c8c8a9a9ff
+    ¦   9a4b0e8a9c8fcbbaca03b743ddfc06f8
+    ¦   9d3970c14314d24b69846157e8d837fc
+    ¦   a7dc4d5a44743ace9a4e067df0d40538
+    ¦   c224ca434c47fb410088873904b746cd
+    ¦   d48273106cc7802ec6a0374c036c33d3
+    ¦   e30bd168c139bf6a0f6659d5b9361a8b
+    ¦   f3b37abf3a70b35c3cf437859afea255
+    ¦   
+    +---avatars
+            1752154899575-Barghav Abhilash B R.jpg
+            1752154920894-boi2.jpg
+            1752154958760-Barghav Abhilash B R.jpg
+            1752155067613-Barghav Abhilash B R.jpg
+            1752155335648-Barghav Abhilash B R.jpg
+            1752156516417-boi5.jpg
+            1752156519789-boi7.jpg
+            1752156526322-boi8.jpg
+            1752157175637-boi6.jpg
+            1752157238325-boi8.jpg
+            1752157249870-boi6.jpg
+            1752157260044-boi5.jpg
+            1752157268037-boi8.jpg
+            1752157277604-boi4.jpg
+            1752157287883-boi6.jpg
+            1752210768890-boi5.jpg
+            1752211429890-boi6.jpg
+            1752212386658-boi7.jpg
+            1752212395581-boi6.jpg
+            1752212969804-boi6.jpg
+            1752216667379-boi11.jpg
+            1752216676605-boi16.jpg
+            
